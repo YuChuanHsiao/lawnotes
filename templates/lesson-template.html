@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<!--
+  講義範本 — 使用方式見 AGENTS.md 第 6、7 節
+  1. 複製到 lessons/{subject}-{NNN}-{slug}.html
+  2. 替換所有 {{...}} 佔位符（完成後不可殘留任何 {{ ）
+  3. 選用區塊（#compare、#related）若不需要可整段刪除
+  4. 到 data/lessons.js 末尾登錄這篇講義
+  5. 刪除本註解
+-->
+<html lang="zh-Hant-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{標題}}｜法學考點講義</title>
+  <meta name="description" content="{{40 字以內摘要，與 lessons.js 的 summary 相同}}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;600;700&family=Noto+Serif+TC:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../assets/css/style.css">
+</head>
+<body data-lesson-id="{{subject}}-{{NNN}}" data-subject="{{subject}}">
+  <header class="site-header">
+    <div class="inner">
+      <a class="brand" href="../index.html">法學<span>考點</span>講義</a>
+      <nav><a href="../index.html#lessons">講義列表</a></nav>
+    </div>
+    <div class="progress"></div>
+  </header>
+
+  <div class="lesson-layout">
+    <article class="lesson">
+      <header class="lesson-header">
+        <span class="badge">{{科目中文名}}</span>
+        <h1>{{標題}}</h1>
+        <div class="meta">
+          <span>相關條文：{{例：刑法 §23}}</span>
+          <span>難度：<span class="stars">{{★★☆}}</span></span>
+          <span>閱讀時間：約 {{N}} 分鐘</span>
+          <span>更新：{{YYYY-MM-DD}}</span>
+        </div>
+      </header>
+
+      <section id="goals" class="goals">
+        <h2>學習目標</h2>
+        <ul>
+          <li>能夠{{…}}</li>
+          <li>能夠{{…}}</li>
+          <li>能夠{{…}}</li>
+        </ul>
+      </section>
+
+      <section id="statute">
+        <h2>條文原文</h2>
+        <blockquote class="statute">
+          <p>{{逐字引用現行條文第一項}}</p>
+          <p>{{第二項（若有）}}</p>
+          <cite>{{法規名稱}} 第 {{N}} 條</cite>
+        </blockquote>
+      </section>
+
+      <section id="concept">
+        <h2>概念解說</h2>
+        <p>{{白話說明立法目的與核心概念，300 字以內}}</p>
+      </section>
+
+      <section id="elements">
+        <h2>要件拆解</h2>
+        <ol class="elements">
+          <li><strong>{{要件一}}</strong>{{說明}}</li>
+          <li><strong>{{要件二}}</strong>{{說明}}</li>
+          <li><strong>{{要件三}}</strong>{{說明}}</li>
+        </ol>
+      </section>
+
+      <!-- 選用：比較表 -->
+      <section id="compare">
+        <h2>{{A}} 與 {{B}} 比較</h2>
+        <div class="table-wrap">
+          <table class="compare-table">
+            <thead><tr><th></th><th>{{A}}</th><th>{{B}}</th></tr></thead>
+            <tbody>
+              <tr><th>{{比較項目}}</th><td>{{…}}</td><td>{{…}}</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="case">
+        <h2>實例演練</h2>
+        <div class="case">
+          <p class="case-question">{{以甲、乙、丙敘述的案例事實}}</p>
+          <details>
+            <summary>展開解答</summary>
+            <p class="answer-step"><b>爭點</b>{{…}}</p>
+            <p class="answer-step"><b>涵攝</b>{{…}}</p>
+            <p class="answer-step"><b>結論</b>{{…}}</p>
+          </details>
+        </div>
+      </section>
+
+      <section id="tips">
+        <h2>考點提醒</h2>
+        <div class="callout tip">
+          <ul>
+            <li>{{國考常考角度}}</li>
+            <li>{{答題架構建議}}</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="pitfalls">
+        <h2>常見錯誤</h2>
+        <div class="callout pitfall">
+          <ul>
+            <li>{{錯誤一}}</li>
+            <li>{{錯誤二}}</li>
+          </ul>
+        </div>
+      </section>
+
+      <section id="quiz" class="quiz">
+        <h2>自我測驗</h2>
+        <ol>
+          <li>
+            {{題目}}
+            <ol class="options"><li>{{選項}}</li><li>{{選項}}</li><li>{{選項}}</li><li>{{選項}}</li></ol>
+            <details><summary>看答案</summary><p>答案：{{X}}。{{解析}}</p></details>
+          </li>
+          <li>
+            {{是非題}}（○／×）
+            <details><summary>看答案</summary><p>答案：{{○或×}}。{{解析}}</p></details>
+          </li>
+          <li>
+            {{題目}}
+            <details><summary>看答案</summary><p>答案：{{…}}</p></details>
+          </li>
+        </ol>
+      </section>
+
+      <!-- 選用：相關講義 -->
+      <section id="related" class="related">
+        <h2>相關講義</h2>
+        <ul>
+          <li><a href="{{subject}}-{{NNN}}-{{slug}}.html">{{講義標題}}</a></li>
+        </ul>
+      </section>
+
+      <nav class="pager" data-pager></nav>
+    </article>
+
+    <aside class="toc" data-toc></aside>
+  </div>
+
+  <footer class="site-footer">本講義僅供學習參考，不構成法律意見；條文請以全國法規資料庫最新版本為準。</footer>
+
+  <script src="../data/lessons.js"></script>
+  <script src="../assets/js/main.js"></script>
+</body>
+</html>

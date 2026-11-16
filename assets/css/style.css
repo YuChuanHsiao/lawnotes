@@ -1,0 +1,215 @@
+/* 法學考點講義 — 全站唯一樣式表。規則見 AGENTS.md 第 5、11 節：不得改名既有變數或刪除既有 class。 */
+
+:root {
+  --paper: #faf7f0;
+  --paper-2: #f2ede1;
+  --card: #ffffff;
+  --ink: #23201b;
+  --ink-soft: #5d574c;
+  --line: #e2dccd;
+
+  --c-constitution: #2f7d4f;
+  --c-admin: #1f7a80;
+  --c-civil: #2b5ea7;
+  --c-criminal: #b23a3a;
+  --c-civpro: #6b4aa0;
+  --c-crimpro: #c26a1b;
+
+  --tip: #2b5ea7;
+  --tip-bg: #eaf1fb;
+  --pitfall: #b23a3a;
+  --pitfall-bg: #fbeceb;
+
+  --accent: var(--ink);
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(0,0,0,.04), 0 4px 14px rgba(60,45,20,.06);
+  --font-serif: "Noto Serif TC", "Songti TC", serif;
+  --font-sans: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --content-w: 760px;
+}
+
+/* 科目主色：body 或卡片上的 data-subject 決定 --accent */
+[data-subject="constitution"] { --accent: var(--c-constitution); }
+[data-subject="admin"]        { --accent: var(--c-admin); }
+[data-subject="civil"]        { --accent: var(--c-civil); }
+[data-subject="criminal"]     { --accent: var(--c-criminal); }
+[data-subject="civpro"]       { --accent: var(--c-civpro); }
+[data-subject="crimpro"]      { --accent: var(--c-crimpro); }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.85;
+}
+a { color: var(--accent); }
+h1, h2, h3 { font-family: var(--font-serif); line-height: 1.4; }
+
+/* ---------- 頂部列 ---------- */
+.site-header {
+  position: sticky; top: 0; z-index: 10;
+  background: rgba(250,247,240,.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--line);
+}
+.site-header .inner {
+  max-width: 1120px; margin: 0 auto; padding: 14px 24px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.brand { font-family: var(--font-serif); font-weight: 700; font-size: 1.15rem; color: var(--ink); text-decoration: none; }
+.brand span { color: var(--c-criminal); }
+.site-header nav a { color: var(--ink-soft); text-decoration: none; margin-left: 20px; font-size: .95rem; }
+.site-header nav a:hover { color: var(--ink); }
+.progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: var(--accent); transition: width .1s; }
+
+/* ---------- 首頁 ---------- */
+.hero { max-width: 1120px; margin: 0 auto; padding: 64px 24px 28px; }
+.hero h1 { font-size: clamp(2rem, 5vw, 3rem); margin: 0 0 12px; }
+.hero p { color: var(--ink-soft); max-width: 640px; margin: 0; }
+.hero .stats { margin-top: 20px; display: flex; gap: 28px; color: var(--ink-soft); font-size: .95rem; }
+.hero .stats b { font-family: var(--font-serif); font-size: 1.6rem; color: var(--ink); display: block; }
+
+.filters { max-width: 1120px; margin: 0 auto; padding: 8px 24px 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.filter-btn {
+  border: 1px solid var(--line); background: var(--card); color: var(--ink-soft);
+  padding: 6px 16px; border-radius: 999px; cursor: pointer; font: inherit; font-size: .9rem;
+}
+.filter-btn.active { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+
+.lesson-grid {
+  max-width: 1120px; margin: 0 auto; padding: 24px;
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;
+}
+.lesson-card {
+  display: flex; flex-direction: column; gap: 8px;
+  background: var(--card); border: 1px solid var(--line); border-top: 4px solid var(--accent);
+  border-radius: var(--radius); padding: 20px 22px; box-shadow: var(--shadow);
+  color: var(--ink); text-decoration: none; transition: transform .15s, box-shadow .15s;
+}
+.lesson-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(60,45,20,.12); }
+.lesson-card h3 { margin: 0; font-size: 1.3rem; }
+.lesson-card .articles { font-size: .88rem; color: var(--ink-soft); }
+.lesson-card p { margin: 0; font-size: .95rem; color: var(--ink-soft); flex: 1; }
+.lesson-card .meta { display: flex; justify-content: space-between; font-size: .82rem; color: var(--ink-soft); }
+
+.badge {
+  display: inline-block; align-self: flex-start;
+  font-size: .78rem; font-weight: 700; letter-spacing: .05em;
+  color: var(--accent); border: 1px solid var(--accent); border-radius: 4px; padding: 0 8px;
+}
+.tags { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag { font-size: .78rem; background: var(--paper-2); color: var(--ink-soft); padding: 1px 8px; border-radius: 4px; }
+.stars { color: #c99a2e; letter-spacing: 1px; }
+
+.how-to { max-width: 1120px; margin: 12px auto 0; padding: 0 24px; }
+.how-to .box { background: var(--paper-2); border-radius: var(--radius); padding: 20px 24px; font-size: .95rem; color: var(--ink-soft); }
+.how-to h2 { font-size: 1.15rem; margin: 0 0 6px; color: var(--ink); }
+.how-to ol { margin: 0; padding-left: 1.3em; }
+
+/* ---------- 講義頁 ---------- */
+.lesson-layout {
+  max-width: 1120px; margin: 0 auto; padding: 40px 24px;
+  display: grid; grid-template-columns: minmax(0, var(--content-w)) 240px; gap: 56px; justify-content: center;
+}
+.lesson-header { border-bottom: 2px solid var(--accent); padding-bottom: 20px; margin-bottom: 8px; }
+.lesson-header h1 { font-size: clamp(1.9rem, 4.5vw, 2.6rem); margin: 10px 0 6px; }
+.lesson-header .meta { display: flex; flex-wrap: wrap; gap: 6px 22px; color: var(--ink-soft); font-size: .92rem; }
+
+.lesson section { margin-top: 44px; }
+.lesson h2 {
+  font-size: 1.45rem; margin: 0 0 14px; padding-left: 14px;
+  border-left: 5px solid var(--accent);
+}
+.lesson h3 { font-size: 1.12rem; margin: 22px 0 8px; }
+
+.goals ul { list-style: none; padding: 0; margin: 0; }
+.goals li { padding: 6px 0 6px 30px; position: relative; }
+.goals li::before { content: "✓"; position: absolute; left: 4px; color: var(--accent); font-weight: 700; }
+
+blockquote.statute {
+  margin: 0 0 14px; padding: 18px 22px;
+  background: var(--card); border: 1px solid var(--line); border-left: 5px solid var(--accent);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  font-family: var(--font-serif); font-size: 1.02rem;
+}
+blockquote.statute p { margin: 0 0 8px; }
+blockquote.statute cite { display: block; text-align: right; font-style: normal; font-size: .88rem; color: var(--ink-soft); }
+
+ol.elements { counter-reset: el; list-style: none; padding: 0; margin: 0; }
+ol.elements > li {
+  counter-increment: el; position: relative;
+  background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 18px 14px 62px; margin-bottom: 10px;
+}
+ol.elements > li::before {
+  content: counter(el); position: absolute; left: 16px; top: 14px;
+  width: 30px; height: 30px; border-radius: 50%; background: var(--accent); color: #fff;
+  display: grid; place-items: center; font-weight: 700; font-size: .9rem; line-height: 1;
+}
+ol.elements strong { display: block; font-family: var(--font-serif); font-size: 1.05rem; }
+ol.elements ul { margin: 6px 0 0; padding-left: 1.2em; }
+
+.compare-table { width: 100%; border-collapse: collapse; background: var(--card); border-radius: var(--radius); overflow: hidden; font-size: .95rem; }
+.compare-table th, .compare-table td { border: 1px solid var(--line); padding: 10px 12px; vertical-align: top; text-align: left; }
+.compare-table thead th { background: var(--accent); color: #fff; font-weight: 600; }
+.compare-table tbody th { background: var(--paper-2); white-space: nowrap; }
+.table-wrap { overflow-x: auto; }
+
+.case { background: var(--card); border: 1px dashed var(--accent); border-radius: var(--radius); padding: 18px 22px; margin-bottom: 14px; }
+.case-question { margin: 0 0 10px; }
+.case-question::before { content: "【例題】"; font-weight: 700; color: var(--accent); }
+
+details { border-top: 1px solid var(--line); padding-top: 8px; }
+details > summary { cursor: pointer; font-weight: 600; color: var(--accent); list-style: none; }
+details > summary::-webkit-details-marker { display: none; }
+details > summary::before { content: "▸ "; }
+details[open] > summary::before { content: "▾ "; }
+.answer-step { margin: 10px 0 0; }
+.answer-step b { display: inline-block; min-width: 4.5em; color: var(--ink); }
+
+.callout { border-radius: var(--radius); padding: 16px 20px; margin: 0; }
+.callout ul { margin: 0; padding-left: 1.2em; }
+.callout li + li { margin-top: 6px; }
+.callout.tip { background: var(--tip-bg); border-left: 5px solid var(--tip); }
+.callout.pitfall { background: var(--pitfall-bg); border-left: 5px solid var(--pitfall); }
+
+.quiz ol { padding-left: 1.3em; margin: 0; }
+.quiz li { margin-bottom: 18px; }
+.quiz .options { list-style: upper-alpha; padding-left: 1.6em; margin: 6px 0; color: var(--ink-soft); }
+.quiz .options li { margin: 0; }
+.quiz details p { margin: 6px 0 0; }
+
+.related ul { padding-left: 1.2em; }
+
+.pager { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 56px; }
+.pager a {
+  display: block; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius);
+  padding: 14px 18px; text-decoration: none; color: var(--ink);
+}
+.pager a:hover { border-color: var(--ink-soft); }
+.pager small { display: block; color: var(--ink-soft); }
+.pager .next { text-align: right; grid-column: 2; }
+
+/* 右側目錄 */
+.toc { position: sticky; top: 90px; align-self: start; font-size: .9rem; }
+.toc h4 { margin: 0 0 8px; font-family: var(--font-serif); color: var(--ink-soft); font-weight: 600; }
+.toc ol { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--line); }
+.toc a { display: block; padding: 4px 0 4px 14px; margin-left: -2px; color: var(--ink-soft); text-decoration: none; border-left: 2px solid transparent; }
+.toc a.active { color: var(--accent); border-left-color: var(--accent); font-weight: 600; }
+
+/* ---------- 頁尾 ---------- */
+.site-footer { border-top: 1px solid var(--line); margin-top: 60px; padding: 28px 24px; text-align: center; color: var(--ink-soft); font-size: .85rem; }
+
+@media (max-width: 960px) {
+  .lesson-layout { grid-template-columns: minmax(0, 1fr); }
+  .toc { display: none; }
+}
+@media print {
+  .site-header, .toc, .pager, .site-footer { display: none; }
+  details { display: block; }
+  body { background: #fff; }
+}
