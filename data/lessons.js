@@ -6,7 +6,8 @@ window.SUBJECTS = {
   civil:        { name: "民法" },
   criminal:     { name: "刑法" },
   civpro:       { name: "民事訴訟法" },
-  crimpro:      { name: "刑事訴訟法" }
+  crimpro:      { name: "刑事訴訟法" },
+  company:      { name: "公司法" }
 };
 
 window.LESSONS = [

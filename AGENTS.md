@@ -58,6 +58,7 @@ law-notes/
 | `criminal` | 刑法 | `--c-criminal` | 紅 |
 | `civpro` | 民事訴訟法 | `--c-civpro` | 紫 |
 | `crimpro` | 刑事訴訟法 | `--c-crimpro` | 橘 |
+| `company` | 公司法 | `--c-company` | 棕 |
 
 範例：`lessons/criminal-001-self-defense.html`、`lessons/civil-002-agency.html`
 
@@ -153,3 +154,12 @@ law-notes/
 
 - 推送到 GitHub `main` 分支後，GitHub Pages 設定為 **Deploy from a branch → main → / (root)**。
 - 網址格式：`https://<GitHub 帳號>.github.io/law-notes/`
+
+## 13. 後續擴充計畫
+
+以下科目已預先完成代碼與主色設定，後續將依本文件第 7 節流程陸續新增講義：
+
+- **行政法（`admin`）**：例：信賴保護原則、行政處分之撤銷與廢止
+- **民事訴訟法（`civpro`）**：例：舉證責任分配、既判力客觀範圍
+- **刑事訴訟法（`crimpro`）**：例：違法取得證據之排除、傳聞法則
+- **公司法（`company`）**：例：股東會決議瑕疵、董事忠實義務與注意義務

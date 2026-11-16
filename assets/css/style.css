@@ -14,6 +14,7 @@
   --c-criminal: #b23a3a;
   --c-civpro: #6b4aa0;
   --c-crimpro: #c26a1b;
+  --c-company: #8c5a2b;
 
   --tip: #2b5ea7;
   --tip-bg: #eaf1fb;
@@ -35,6 +36,7 @@
 [data-subject="criminal"]     { --accent: var(--c-criminal); }
 [data-subject="civpro"]       { --accent: var(--c-civpro); }
 [data-subject="crimpro"]      { --accent: var(--c-crimpro); }
+[data-subject="company"]      { --accent: var(--c-company); }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; scroll-padding-top: 80px; }
