@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>刑法阻卻違法事由入門 — 教學型 HTML 簡報</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #1e293b;
+      --card-light: #ffffff;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --primary: #38bdf8;
+      --accent: #34d399;
+      --warn: #fbbf24;
+      --danger: #f87171;
+      --border: rgba(148, 163, 184, 0.22);
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background: radial-gradient(circle at top right, #1e3a8a 0%, #0f172a 55%);
+      color: var(--text);
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+    .topbar {
+      height: 54px;
+      padding: 0 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(8px);
+    }
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .pill {
+      background: rgba(56, 189, 248, 0.16);
+      color: var(--primary);
+      border: 1px solid rgba(56, 189, 248, 0.35);
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-btn {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.86rem;
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .nav-btn:hover { background: rgba(255, 255, 255, 0.18); }
+    .progress-bar {
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      width: 100%;
+    }
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+      transition: width 0.25s ease;
+    }
+    .deck {
+      height: calc(100vh - 114px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px 28px;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1040px;
+      height: 100%;
+      max-height: 640px;
+      background: rgba(30, 41, 59, 0.92);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 34px 42px 26px;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.45);
+      flex-direction: column;
+      justify-content: space-between;
+      overflow-y: auto;
+      animation: fadeIn 0.22s ease;
+    }
+    .slide.active { display: flex; }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .slide-kicker {
+      color: var(--primary);
+      font-weight: 700;
+      font-size: 0.88rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+    }
+    .slide h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.7rem, 3vw, 2.5rem);
+      line-height: 1.25;
+    }
+    .slide h2 {
+      margin: 0 0 14px;
+      font-size: clamp(1.35rem, 2.3vw, 1.9rem);
+      line-height: 1.3;
+    }
+    .subtitle {
+      font-size: 1.05rem;
+      color: #cbd5e1;
+      margin: 0 0 18px;
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+      gap: 14px;
+    }
+    .box {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px 18px;
+    }
+    .box.highlight {
+      border-color: var(--primary);
+      background: rgba(56, 189, 248, 0.1);
+    }
+    .box.ok { border-top: 4px solid var(--accent); }
+    .box.no { border-top: 4px solid var(--danger); }
+    .box.warn { border-top: 4px solid var(--warn); }
+    .box h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .box p, .box li { margin: 4px 0; color: #e2e8f0; font-size: 0.94rem; line-height: 1.6; }
+    .box ul { margin: 6px 0 0 18px; padding: 0; }
+    .step-flow {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0;
+    }
+    @media (max-width: 780px) {
+      .step-flow { grid-template-columns: 1fr; }
+      .arrow { display: none; }
+    }
+    .arrow { font-size: 1.6rem; color: var(--primary); text-align: center; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      margin-top: 8px;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 9px 12px;
+      text-align: left;
+    }
+    th { background: rgba(56, 189, 248, 0.14); color: #e0f2fe; }
+    .slide-footer {
+      margin-top: 16px;
+      padding-top: 12px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--muted);
+    }
+    .wiki-ref {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 3px 9px;
+      border-radius: 6px;
+      background: rgba(52, 211, 153, 0.12);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+    .wiki-ref:hover { background: rgba(52, 211, 153, 0.24); }
+    .controls {
+      height: 56px;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid var(--border);
+      background: rgba(15, 23, 42, 0.9);
+    }
+    .quiz-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      margin: 7px 0;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.06);
+      color: #fff;
+      cursor: pointer;
+      font-size: 0.93rem;
+      transition: all 0.15s;
+    }
+    .quiz-btn:hover { background: rgba(56, 189, 248, 0.18); }
+    .quiz-btn.correct { background: rgba(52, 211, 153, 0.25); border-color: var(--accent); }
+    .quiz-btn.wrong { background: rgba(248, 113, 113, 0.22); border-color: var(--danger); }
+    .quiz-feedback {
+      margin-top: 8px;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      display: none;
+      background: rgba(15, 23, 42, 0.85);
+      border-left: 4px solid var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="topbar-left">
+      <span class="pill">教學 HTML 簡報</span>
+      <span>刑法阻卻違法事由入門</span>
+    </div>
+    <div class="topbar-right">
+      <select id="slidePicker" class="nav-btn" onchange="goTo(Number(this.value))" aria-label="跳至投影片"></select>
+      <a class="nav-btn" href="index.html">📚 回到 LLM Wiki</a>
+    </div>
+  </div>
+  <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+
+  <div class="deck">
+    <!-- Slide 1: Cover -->
+    <section class="slide active" data-title="1. 封面與破題">
+      <div>
+        <div class="slide-kicker">LLM WIKI 知識庫驅動教學簡報</div>
+        <h1>看起來像犯罪，為什麼法律卻說「不罰」？</h1>
+        <p class="subtitle">10 分鐘用生活案例看懂台灣《刑法》的「阻卻違法事由」</p>
+        <div class="grid-3" style="margin-top:24px;">
+          <div class="box">
+            <h3>🥊 被歹徒攻擊反擊</h3>
+            <p>打傷對方外觀像傷害罪，為何可能完全無罪？</p>
+          </div>
+          <div class="box">
+            <h3>🔥 火災打破鄰居窗戶</h3>
+            <p>弄壞別人的玻璃外觀像毀損罪，為何法律允許？</p>
+          </div>
+          <div class="box">
+            <h3>🩺 醫師拿手術刀開刀</h3>
+            <p>切開病人身體外觀像傷害，為何是正當行為？</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>提示：可用鍵盤 ← → 或空白鍵切換投影片</span>
+        <a class="wiki-ref" href="index.html#WIKI-01">Wiki 來源：index.md / WIKI-01～06</a>
+      </div>
+    </section>
+
+    <!-- Slide 2: Tripartite System -->
+    <section class="slide" data-title="2. 三階層犯罪審查地圖">
+      <div>
+        <div class="slide-kicker">核心地圖 • 先搞懂「阻卻違法」在哪裡</div>
+        <h2>刑法判斷犯罪的三道關卡</h2>
+        <div class="step-flow">
+          <div class="box">
+            <h3>第一關：構成要件</h3>
+            <p><strong>白話：</strong>看起來像犯罪嗎？</p>
+            <p>例：推倒別人致擦傷，外觀符合刑法 §277 傷害罪。</p>
+          </div>
+          <div class="arrow">➜</div>
+          <div class="box highlight">
+            <h3>第二關：違法性 ⭐</h3>
+            <p><strong>白話：</strong>有正當理由允許你做嗎？</p>
+            <p>只要成立<strong>阻卻違法事由</strong>，行為瞬間變成<strong>合法、不罰</strong>，直接無罪結案！</p>
+          </div>
+          <div class="arrow">➜</div>
+          <div class="box">
+            <h3>第三關：罪責</h3>
+            <p><strong>白話：</strong>做錯了，但能苛責他嗎？</p>
+            <p>例：未滿 14 歲，或<strong>防衛／避難過當</strong>（仍違法，但可減免其刑）。</p>
+          </div>
+        </div>
+        <div class="box warn" style="margin-top:12px;">
+          <h3>💡 新手最容易搞混的一句話</h3>
+          <p><strong>阻卻違法（第二關）</strong>＝法律認可你做得對（合法）；<strong>減輕罪責（第三關）</strong>＝行為仍然違法，只是體諒當下處境而網開一面。</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>來源資料：SRC-06（三階層犯罪論）、SRC-01</span>
+        <a class="wiki-ref" href="index.html#WIKI-01">🔗 對應 Wiki：WIKI-01 三階層體系</a>
+      </div>
+    </section>
+
+    <!-- Slide 3: Self-Defense -->
+    <section class="slide" data-title="3. 正當防衛（刑法 §23）">
+      <div>
+        <div class="slide-kicker">法定阻卻違法事由 ① • 正對不正</div>
+        <h2>正當防衛（刑法第 23 條）</h2>
+        <p class="subtitle">面對「正在發生」的不法攻擊，出於保護自己或他人而反擊，法律不罰。</p>
+        <div class="grid-3">
+          <div class="box ok">
+            <h3>1. 現在不法侵害</h3>
+            <p>攻擊必須<strong>正在進行或迫在眉睫</strong>。事前先下手、或等對方跑了再追打報復，都不是「現在」。</p>
+          </div>
+          <div class="box ok">
+            <h3>2. 防衛必要性</h3>
+            <p>能有效制止攻擊、且在同樣有效手段中選傷害小的。<strong>最高法院 108 台上 62</strong>：不用等到「走投無路」才能反擊！</p>
+          </div>
+          <div class="box ok">
+            <h3>3. 防衛意思</h3>
+            <p>心裡是真的為了保護自己或他人，而不是趁機尋仇或約好打架。</p>
+          </div>
+        </div>
+        <div class="grid-2" style="margin-top:14px;">
+          <div class="box no">
+            <h3>❌ 常見地雷：互毆 &amp; 挑唆防衛</h3>
+            <p>約好單挑互毆 → 雙方都沒防衛意思，<strong>不能主張正當防衛</strong>。故意激怒對方誘使打人再反擊（意圖挑唆）亦屬權利濫用。</p>
+          </div>
+          <div class="box warn">
+            <h3>⚠️ 防衛過當（§23 但書）</h3>
+            <p>歹徒已倒地失去反抗能力卻繼續痛毆 → <strong>仍屬違法</strong>，只能到第三關請求減輕或免除其刑。</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>來源資料：SRC-01（§23）、SRC-02（最高法院 108 台上 62、112 台上 537）</span>
+        <a class="wiki-ref" href="index.html#WIKI-02">🔗 對應 Wiki：WIKI-02 正當防衛</a>
+      </div>
+    </section>
+
+    <!-- Slide 4: Necessity -->
+    <section class="slide" data-title="4. 緊急避難（刑法 §24）">
+      <div>
+        <div class="slide-kicker">法定阻卻違法事由 ② • 正對正</div>
+        <h2>緊急避難（刑法第 24 條）</h2>
+        <p class="subtitle">遇到突發危難，在「真的沒別招」的情況下，犧牲較小的無辜利益去救較大的利益。</p>
+        <div class="grid-2">
+          <div class="box ok">
+            <h3>✅ 必須同時過三關</h3>
+            <ul>
+              <li><strong>緊急危難</strong>：限生命、身體、自由、財產（天災、火災、野狗、急病皆可）。</li>
+              <li><strong>出於不得已</strong>：真的是最後手段，沒有其他無害解法。</li>
+              <li><strong>利益衡量</strong>：救回來的利益<strong>顯然大於</strong>犧牲的利益（例：生命 &gt; 窗戶財產）。</li>
+            </ul>
+          </div>
+          <div class="box no">
+            <h3>❌ 這些「不能」主張緊急避難</h3>
+            <ul>
+              <li><strong>失業肚子餓偷超商便當</strong>：還有社福與急難救助管道，不符「不得已」。</li>
+              <li><strong>一命換一命</strong>：生命價值相等，沒有優越利益。</li>
+              <li><strong>消防員／警察避己危難（§24Ⅱ）</strong>：負有職務特別義務者不得主張。</li>
+            </ul>
+          </div>
+        </div>
+        <div class="box highlight" style="margin-top:12px;">
+          <p><strong>生活正例：</strong>大樓失火濃煙竄入，逃生無門下打破鄰居陽台玻璃逃生 → 保全生命顯然大於玻璃財產，阻卻違法不罰！</p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>來源資料：SRC-01（§24）、SRC-03（最高法院 109 台上 5037）</span>
+        <a class="wiki-ref" href="index.html#WIKI-03">🔗 對應 Wiki：WIKI-03 緊急避難</a>
+      </div>
+    </section>
+
+    <!-- Slide 5: Other Grounds -->
+    <section class="slide" data-title="5. 其他三大阻卻違法事由">
+      <div>
+        <div class="slide-kicker">法定 ③④ + 超法規 ⑤ • 生活中的合法授權</div>
+        <h2>依法令、業務正當行為與「被害人承諾」</h2>
+        <div class="grid-3">
+          <div class="box ok">
+            <h3>📜 依法令與上級命令（§21）</h3>
+            <p><strong>依法令</strong>：民眾依刑訴法 §88 壓制現行犯、警察持搜索票搜索。</p>
+            <p><strong>上級命令</strong>：公務員執行職務命令不罰，但<strong>明知命令違法仍照辦，照樣要罰！</strong></p>
+          </div>
+          <div class="box ok">
+            <h3>🩺 業務上正當行為（§22）</h3>
+            <p>在正當專業規範與規則內的行為：</p>
+            <ul>
+              <li>醫師依醫療常規開刀救人</li>
+              <li>拳擊手在比賽規則內擊倒對手</li>
+            </ul>
+            <p>⚠️ 裁判喊停後偷襲 → 越界違法！</p>
+          </div>
+          <div class="box highlight">
+            <h3>🤝 得被害人承諾（超法規）</h3>
+            <p>事前真心同意放棄「可處分的個人法益」：</p>
+            <ul>
+              <li>✅ 砸壞舊衣櫃、剪髮、刺青</li>
+              <li>✅ <strong>推測承諾</strong>：昏迷急救剪破外套</li>
+              <li>❌ <strong>生命權不可承諾</strong>（§275）</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>來源資料：SRC-01（§21–22）、SRC-04、SRC-05</span>
+        <a class="wiki-ref" href="index.html#WIKI-04">🔗 WIKI-04 依法令／業務</a>
+        <a class="wiki-ref" href="index.html#WIKI-05">🔗 WIKI-05 被害人承諾</a>
+      </div>
+    </section>
+
+    <!-- Slide 6: Comparison -->
+    <section class="slide" data-title="6. 正當防衛 vs 緊急避難">
+      <div>
+        <div class="slide-kicker">最容易搞混的雙胞胎 • 一張表秒懂</div>
+        <h2>正當防衛 vs. 緊急避難 終極對照</h2>
+        <div class="box highlight" style="margin-bottom:10px;padding:10px 16px;">
+          <strong>口訣：</strong>正當防衛是<strong>「正對不正」</strong>（反擊壞人，不用委屈先逃）；緊急避難是<strong>「正對正」</strong>（波及無辜，必須沒別招＋救大犧牲小）。
+        </div>
+        <table>
+          <thead>
+            <tr><th>比較重點</th><th>正當防衛（刑法 §23）</th><th>緊急避難（刑法 §24）</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><strong>你傷到誰？</strong></td><td>正在攻擊你的<strong>不法壞人</strong></td><td>通常波及<strong>無辜第三人</strong></td></tr>
+            <tr><td><strong>危險從哪來？</strong></td><td>限於「人類」的不法攻擊</td><td>不限人類（火災、地震、野狗皆可）</td></tr>
+            <tr><td><strong>一定要「沒別招」嗎？</strong></td><td><strong>不用</strong>（有效且未濫用即可）</td><td><strong>必須</strong>（補充性＝真的沒別招了）</td></tr>
+            <tr><td><strong>要比利益大小嗎？</strong></td><td>原則不嚴格比（禁權利濫用）</td><td><strong>嚴格要求</strong>（救大的、犧牲小的）</td></tr>
+            <tr><td><strong>過當會怎樣？</strong></td><td colspan="2">兩者皆<strong>仍屬違法</strong>，但在第三關罪責層次「得減輕或免除其刑」</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer">
+        <span>經 Check C 優化：將「補充性」「衡平性」轉為白話說明</span>
+        <a class="wiki-ref" href="index.html#WIKI-06">🔗 對應 Wiki：WIKI-06 完整對照表</a>
+      </div>
+    </section>
+
+    <!-- Slide 7: Quiz 1 -->
+    <section class="slide" data-title="7. 隨堂小測驗 ①">
+      <div>
+        <div class="slide-kicker">互動演練 1 / 3 • 檢驗你是否真的懂了</div>
+        <h2>情境題 ①：深夜遭野狗追咬，翻牆躲進陌生人家</h2>
+        <div class="box" style="margin-bottom:14px;">
+          <p>小美深夜回家遭三隻失控野狗狂追，附近無人求助，情急之下翻牆闖入路邊民宅庭院並弄斷盆栽。請問小美應主張哪一種阻卻違法事由？</p>
+        </div>
+        <button class="quiz-btn" onclick="answerQuiz(this, false, 'fb1', '❌ 野狗不是「人類的不法侵害」，而且小美破壞的是無辜屋主的庭院與盆栽，屬於「正對正」，不是正當防衛喔！')">A. 正當防衛（刑法第 23 條）</button>
+        <button class="quiz-btn" onclick="answerQuiz(this, true, 'fb1', '✅ 答對了！危難來自野狗（非人類）、無路可逃（不得已）、保全身體顯然大於盆栽與住宅安寧（優越利益），成立緊急避難！')">B. 緊急避難（刑法第 24 條）</button>
+        <button class="quiz-btn" onclick="answerQuiz(this, false, 'fb1', '❌ 屋主並未事前同意小美闖入，且此情境屬為避險而波及他人，應適用法定之緊急避難。')">C. 得被害人承諾（超法規事由）</button>
+        <div id="fb1" class="quiz-feedback"></div>
+      </div>
+      <div class="slide-footer">
+        <span>測驗考點：正當防衛 vs. 緊急避難之危難來源與對象</span>
+        <a class="wiki-ref" href="index.html#WIKI-06">🔗 對應 Wiki：WIKI-03 / WIKI-06</a>
+      </div>
+    </section>
+
+    <!-- Slide 8: Quiz 2 -->
+    <section class="slide" data-title="8. 隨堂小測驗 ②">
+      <div>
+        <div class="slide-kicker">互動演練 2 / 3 • 常見實務地雷</div>
+        <h2>情境題 ②：行車糾紛下車互罵「有種來打啊！」並互毆</h2>
+        <div class="box" style="margin-bottom:14px;">
+          <p>甲乙因搶車位爆發口角，兩人同時下車叫囂「來單挑」並互相揮拳毆打，結果乙鼻梁骨折。甲在法庭上主張「乙也打我，我是正當防衛！」法院會怎麼判？</p>
+        </div>
+        <button class="quiz-btn" onclick="answerQuiz(this, false, 'fb2', '❌ 雙方都基於傷害故意互毆，欠缺「防衛意思」，實務一貫見解認為互毆雙方皆不能主張正當防衛。')">A. 成立正當防衛，甲無罪</button>
+        <button class="quiz-btn" onclick="answerQuiz(this, false, 'fb2', '❌ 既然根本不成立正當防衛（欠缺防衛意思），也就沒有「防衛過當」的適用空間喔！')">B. 成立防衛過當，甲得減輕其刑</button>
+        <button class="quiz-btn" onclick="answerQuiz(this, true, 'fb2', '✅ 完全正確！依最高法院實務見解，互毆雙方皆欠缺防衛意思，均不得主張正當防衛，亦無防衛過當可言。')">C. 互毆欠缺防衛意思，既非正當防衛亦非防衛過當</button>
+        <div id="fb2" class="quiz-feedback"></div>
+      </div>
+      <div class="slide-footer">
+        <span>測驗考點：互毆排除正當防衛與防衛過當</span>
+        <a class="wiki-ref" href="index.html#WIKI-02">🔗 對應 Wiki：WIKI-02 正當防衛</a>
+      </div>
+    </section>
+
+    <!-- Slide 9: Quiz 3 -->
+    <section class="slide" data-title="9. 隨堂小測驗 ③">
+      <div>
+        <div class="slide-kicker">互動演練 3 / 3 • 過當的法律定位</div>
+        <h2>情境題 ③：屋主把已倒地求饒的小偷打成重傷</h2>
+        <div class="box" style="margin-bottom:14px;">
+          <p>小偷入室行竊被屋主發現，小偷立刻丟下工具舉手投降、不再反抗，屋主卻因憤怒持續持棍痛毆致其重傷。關於「防衛過當」的性質，下列何者正確？</p>
+        </div>
+        <button class="quiz-btn" onclick="answerQuiz(this, false, 'fb3', '❌ 錯喔！這正是我們在 Wiki Check B 中特別校正的重點：防衛過當已經超過必要程度，行為仍是「違法」的！')">A. 屬於第二關阻卻違法，行為完全合法</button>
+        <button class="quiz-btn" onclick="answerQuiz(this, true, 'fb3', '✅ 答對了！過當行為仍屬違法，只是考量處境緊張，在第三關罪責層次依刑法 §23 但書「得減輕或免除其刑」（本案若侵害已完全結束甚至可能根本不構成防衛情狀）。')">B. 行為仍屬違法，但在第三關罪責層次得減輕或免除其刑</button>
+        <button class="quiz-btn" onclick="answerQuiz(this, false, 'fb3', '❌ 防衛過當是刑法 §23 但書，屬於「得」減輕或免除其刑，而非自動無罪。')">C. 只要對方先闖空門，屋主怎麼打都自動無罪</button>
+        <div id="fb3" class="quiz-feedback"></div>
+      </div>
+      <div class="slide-footer">
+        <span>測驗考點：阻卻違法（第二關）vs. 過當減免罪責（第三關）</span>
+        <a class="wiki-ref" href="index.html#WIKI-01">🔗 對應 Wiki：WIKI-01 / WIKI-02</a>
+      </div>
+    </section>
+
+    <!-- Slide 10: Summary & Workflow -->
+    <section class="slide" data-title="10. 總結與 LLM Wiki 流程">
+      <div>
+        <div class="slide-kicker">學習總結 • 帶著走的 3 個核心觀念</div>
+        <h2>今天你學會了什麼？</h2>
+        <div class="grid-3">
+          <div class="box highlight">
+            <h3>1. 三階層定位</h3>
+            <p>阻卻違法在<strong>第二關</strong>，成立就代表行為<strong>合法不罰</strong>；防衛／避難過當則屬違法，在第三關減免罪責。</p>
+          </div>
+          <div class="box ok">
+            <h3>2. 五大事由地圖</h3>
+            <p>法定四寶（依法令、上級命令、業務正當、正當防衛、緊急避難）＋ 超法規（得被害人承諾／推測承諾）。</p>
+          </div>
+          <div class="box warn">
+            <h3>3. 秒分防衛與避難</h3>
+            <p>傷壞人＝正當防衛（正對不正）；波及無辜＝緊急避難（正對正，須不得已＋優越利益）。</p>
+          </div>
+        </div>
+        <div class="box" style="margin-top:16px;">
+          <h3>🔄 本簡報背後的 LLM Wiki 生產線（Loop / Graph）</h3>
+          <p><code>先討論定 SCHEMA</code> → <code>6 篇 raw/ 逐篇 Ingest（Check A 核對法條）</code> → <code>全庫一致性 Lint（Check B 攔截階層錯誤）</code> → <code>產出教學簡報（Check C 檢核對應 ID 與白話度）</code></p>
+          <p style="margin-top:8px;">
+            <a class="wiki-ref" href="index.html#GRAPH">查看完整 Loop / Graph 流程圖與反思</a>
+            <a class="wiki-ref" href="index.html#LOG" style="margin-left:8px;">查看執行與檢查紀錄（log.md）</a>
+          </p>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>謝謝觀看！點擊右上角「回到 LLM Wiki」可深入閱讀每一篇條目與原始法條。</span>
+        <a class="wiki-ref" href="index.html#WIKI-01">📚 回到 LLM Wiki 首頁</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" onclick="prevSlide()">← 上一頁</button>
+    <span id="pageIndicator" style="font-weight:700;color:#cbd5e1;">1 / 10</span>
+    <button class="nav-btn" onclick="nextSlide()">下一頁 →</button>
+  </div>
+
+  <script>
+    const slides = Array.from(document.querySelectorAll(".slide"));
+    const picker = document.getElementById("slidePicker");
+    slides.forEach((s, i) => {
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = s.dataset.title || `第 ${i + 1} 頁`;
+      picker.appendChild(opt);
+    });
+
+    let current = 0;
+    function goTo(idx) {
+      current = Math.max(0, Math.min(slides.length - 1, idx));
+      slides.forEach((s, i) => s.classList.toggle("active", i === current));
+      picker.value = current;
+      document.getElementById("pageIndicator").textContent = `${current + 1} / ${slides.length}`;
+      document.getElementById("progressFill").style.width = `${((current + 1) / slides.length) * 100}%`;
+      history.replaceState(null, "", `#slide-${current + 1}`);
+    }
+    function nextSlide() { goTo(current + 1); }
+    function prevSlide() { goTo(current - 1); }
+
+    function answerQuiz(btn, isCorrect, fbId, msg) {
+      const parent = btn.parentElement;
+      parent.querySelectorAll(".quiz-btn").forEach(b => b.classList.remove("correct", "wrong"));
+      btn.classList.add(isCorrect ? "correct" : "wrong");
+      const fb = document.getElementById(fbId);
+      fb.style.display = "block";
+      fb.textContent = msg;
+    }
+
+    document.addEventListener("keydown", e => {
+      if (e.key === "ArrowRight" || e.key === " " || e.key === "PageDown") { e.preventDefault(); nextSlide(); }
+      if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); prevSlide(); }
+    });
+
+    const m = location.hash.match(/slide-(\d+)/);
+    goTo(m ? Number(m[1]) - 1 : 0);
+  </script>
+</body>
+</html>

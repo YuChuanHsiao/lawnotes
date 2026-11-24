@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>刑法阻卻違法事由入門 — LLM Wiki 知識庫</title>
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e2e8f0;
+      --primary: #1d4ed8;
+      --primary-soft: #dbeafe;
+      --accent: #0f766e;
+      --accent-soft: #ccfbf1;
+      --warn: #b45309;
+      --warn-soft: #fef3c7;
+      --danger: #b91c1c;
+      --danger-soft: #fee2e2;
+      --radius: 12px;
+      --shadow: 0 4px 20px rgba(15, 23, 42, 0.06);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-badge {
+      background: linear-gradient(135deg, #1d4ed8, #0f766e);
+      color: #fff;
+      font-weight: 700;
+      padding: 6px 10px;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+    .brand h1 {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    .brand p {
+      margin: 0;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      text-decoration: none;
+      padding: 8px 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .btn:hover { background: var(--surface-alt); }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+    .btn-primary:hover { background: #1e40af; }
+    .layout {
+      max-width: 1280px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 300px 1fr;
+      gap: 24px;
+      padding: 24px;
+    }
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+    }
+    aside {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px;
+      box-shadow: var(--shadow);
+      height: fit-content;
+      position: sticky;
+      top: 84px;
+    }
+    .search-box {
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 0.9rem;
+      margin-bottom: 14px;
+    }
+    .nav-section {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--muted);
+      letter-spacing: 0.6px;
+      margin: 14px 0 6px 6px;
+    }
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      width: 100%;
+      text-align: left;
+      background: transparent;
+      border: none;
+      padding: 8px 10px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--text);
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .nav-item:hover { background: var(--surface-alt); }
+    .nav-item.active {
+      background: var(--primary-soft);
+      color: var(--primary);
+      font-weight: 700;
+    }
+    .id-pill {
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.74rem;
+      padding: 2px 6px;
+      border-radius: 6px;
+      background: var(--surface-alt);
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+    .nav-item.active .id-pill {
+      background: var(--primary);
+      color: #fff;
+    }
+    main {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px 32px;
+      box-shadow: var(--shadow);
+      min-height: 75vh;
+    }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: var(--primary-soft);
+      color: var(--primary);
+    }
+    .badge.src {
+      background: var(--accent-soft);
+      color: var(--accent);
+      cursor: pointer;
+      border: none;
+    }
+    .badge.slide {
+      background: var(--warn-soft);
+      color: var(--warn);
+      text-decoration: none;
+    }
+    .tldr {
+      background: linear-gradient(135deg, #eff6ff, #f0fdfa);
+      border-left: 4px solid var(--primary);
+      padding: 14px 18px;
+      border-radius: 8px;
+      margin: 16px 0 22px;
+      font-size: 1.02rem;
+    }
+    .tldr strong { color: var(--primary); }
+    h2 {
+      margin-top: 26px;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.2rem;
+    }
+    blockquote {
+      margin: 12px 0;
+      padding: 12px 16px;
+      background: var(--surface-alt);
+      border-left: 4px solid var(--accent);
+      border-radius: 6px;
+      color: #1e293b;
+    }
+    .case-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 12px;
+      margin: 12px 0;
+    }
+    .case-card {
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+      background: var(--bg);
+    }
+    .case-card.ok { border-top: 4px solid #16a34a; }
+    .case-card.no { border-top: 4px solid #dc2626; }
+    .case-card.warn { border-top: 4px solid #d97706; }
+    .case-card h4 { margin: 0 0 6px; font-size: 0.95rem; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 14px 0;
+      font-size: 0.92rem;
+    }
+    th, td {
+      border: 1px solid var(--border);
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+    th { background: var(--surface-alt); }
+    .wiki-link {
+      color: var(--primary);
+      font-weight: 600;
+      text-decoration: underline;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0;
+      font-size: inherit;
+    }
+    .see-also {
+      margin-top: 28px;
+      padding-top: 16px;
+      border-top: 1px dashed var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+    .flow-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 18px;
+      border-radius: 10px;
+      overflow-x: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 0.86rem;
+      line-height: 1.55;
+    }
+    .log-item {
+      border-left: 3px solid var(--primary);
+      padding: 8px 14px;
+      margin: 12px 0;
+      background: var(--bg);
+      border-radius: 0 8px 8px 0;
+    }
+    .log-item.fix { border-left-color: var(--warn); background: #fffbeb; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span class="brand-badge">LLM WIKI</span>
+      <div>
+        <h1>刑法阻卻違法事由入門</h1>
+        <p>6 篇原始來源 Ingest → 6 篇結構化 Wiki 條目 → 10 頁教學 HTML 簡報</p>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn" onclick="openDoc('GRAPH')">🔄 Loop / Graph 與反思</button>
+      <button class="btn" onclick="openDoc('LOG')">📋 執行檢查日誌</button>
+      <a class="btn btn-primary" href="slides.html">▶ 開啟教學 HTML 簡報</a>
+    </div>
+  </header>
+
+  <div class="layout">
+    <aside>
+      <input id="searchInput" class="search-box" type="text" placeholder="搜尋 Wiki 條目或關鍵字..." oninput="filterNav()" />
+      <div class="nav-section">核心知識庫（wiki/）</div>
+      <div id="wikiNav"></div>
+      <div class="nav-section">原始來源資料（raw/）</div>
+      <div id="rawNav"></div>
+      <div class="nav-section">流程設計與維護紀錄</div>
+      <div id="metaNav"></div>
+    </aside>
+
+    <main id="contentArea"></main>
+  </div>
+
+  <script>
+    const DOCS = {
+      "WIKI-01": {
+        group: "wiki",
+        title: "刑法三階層犯罪審查體系",
+        law: "犯罪論基礎架構",
+        sources: ["SRC-06", "SRC-01"],
+        slides: [2],
+        tldr: "判斷一個人有沒有犯罪，刑法會依序檢查「像不像犯罪（構成要件）→ 有沒有正當理由（違法性）→ 能不能怪他（罪責）」三道關卡。",
+        body: `
+          <h2>三道關卡拆解</h2>
+          <ol>
+            <li><strong>第一關：構成要件該當性（T）</strong> — 行為外觀是否符合刑法條文寫的犯罪樣子（例：揮拳打傷人符合刑法 §277 傷害罪外觀）。</li>
+            <li><strong>第二關：違法性（R）— 阻卻違法事由的主戰場</strong> — 只要成立阻卻違法事由，行為立刻翻盤成為<strong>合法、不罰</strong>，直接無罪結案。</li>
+            <li><strong>第三關：罪責（S）</strong> — 若前兩關皆成立（行為確實違法），最後才檢視個人因素（年齡、精神狀態或防衛／避難過當）是否減輕或免除其刑。</li>
+          </ol>
+          <h2>生活化正反案例</h2>
+          <div class="case-grid">
+            <div class="case-card ok">
+              <h4>✅ 第二關翻盤（阻卻違法）</h4>
+              <p>歹徒持刀衝向小華，小華推倒對方致擦傷。外觀像傷害，但成立正當防衛 → <strong>行為合法、不罰</strong>。</p>
+            </div>
+            <div class="case-card warn">
+              <h4>⚠️ 留在第三關（減輕罪責）</h4>
+              <p>歹徒已倒地失去反抗能力，小華仍補踹三腳（防衛過當）。行為仍屬<strong>違法</strong>，只能在第三關依 §23 但書減輕或免除其刑。</p>
+            </div>
+          </div>
+          <h2>給新手的核心提醒</h2>
+          <blockquote><strong>阻卻違法 ≠ 阻卻罪責</strong>：前者是「法律說你做得對、允許你做」；後者是「你做錯了，但體諒當下處境而減刑或原諒」。</blockquote>
+        `,
+        seeAlso: ["WIKI-02", "WIKI-03", "WIKI-04", "WIKI-05"]
+      },
+      "WIKI-02": {
+        group: "wiki",
+        title: "正當防衛與防衛過當",
+        law: "刑法第 23 條",
+        sources: ["SRC-01", "SRC-02"],
+        slides: [3, 6],
+        tldr: "面對「正在發生」的不法攻擊，出於保護自己或他人而反擊，屬於「正對不正」，法律允許且不罰。",
+        body: `
+          <h2>條文原文</h2>
+          <blockquote>刑法第 23 條：「對於現在不法之侵害，而出於防衛自己或他人權利之行為，不罰。但防衛行為過當者，得減輕或免除其刑。」</blockquote>
+          <h2>成立要件拆解</h2>
+          <ul>
+            <li><strong>現在不法侵害</strong>：侵害必須「迫在眉睫」或「正在進行」。還沒發生（先下手為強）或已結束（事後報復）都不算。</li>
+            <li><strong>防衛必要性</strong>：足以有效終結侵害，且在同樣有效手段中選擇損害較小者。依<strong>最高法院 108 台上 62、112 台上 537 判決</strong>，正當防衛是「正對不正」，<strong>不以「不得已（唯一手段）」為必要</strong>。</li>
+            <li><strong>防衛意思</strong>：主觀上出於保護權利之意思，而非報復或互毆。</li>
+          </ul>
+          <h2>生活化正反案例</h2>
+          <div class="case-grid">
+            <div class="case-card ok">
+              <h4>✅ 成立正當防衛</h4>
+              <p>深夜遭歹徒持棍揮打，順手拿雨傘格擋並推倒歹徒後逃離 → 合法、不罰。</p>
+            </div>
+            <div class="case-card no">
+              <h4>❌ 互毆不成立</h4>
+              <p>雙方口角約好「來單挑」互毆掛彩 → 雙方皆具傷害故意、缺防衛意思，均不可主張正當防衛。</p>
+            </div>
+            <div class="case-card warn">
+              <h4>⚠️ 防衛過當（仍違法）</h4>
+              <p>小偷已丟棄武器求饒，屋主仍持續猛打致重傷 → 超過必要程度，違法但得減輕或免除其刑。</p>
+            </div>
+          </div>
+          <h2>常見誤區（挑唆防衛）</h2>
+          <p>若故意激怒對方引誘攻擊再藉機傷人（意圖式挑唆），屬權利濫用，實務完全否定正當防衛；非意圖挑唆亦須限縮手段、優先迴避。</p>
+        `,
+        seeAlso: ["WIKI-01", "WIKI-03", "WIKI-06"]
+      },
+      "WIKI-03": {
+        group: "wiki",
+        title: "緊急避難與避難過當",
+        law: "刑法第 24 條",
+        sources: ["SRC-01", "SRC-03"],
+        slides: [4, 6],
+        tldr: "遇到突發危難時，在「別無他法」的前提下，犧牲較小的無辜法益去救較大的法益，法律例外不罰。",
+        body: `
+          <h2>條文原文</h2>
+          <blockquote>刑法第 24 條：「因避免自己或他人生命、身體、自由、財產之緊急危難而出於不得已之行為，不罰。但避難行為過當者，得減輕或免除其刑。前項關於避免自己危難之規定，於公務上或業務上有特別義務者，不適用之。」</blockquote>
+          <h2>成立要件拆解（正對正，審查最嚴格）</h2>
+          <ul>
+            <li><strong>緊急危難</strong>：限於<strong>生命、身體、自由、財產</strong>四種法益，危難來源不限於人（火災、地震、野狗、突發疾病皆可）。</li>
+            <li><strong>出於不得已（補充性原則）</strong>：真的是「最後一招」，沒有報警、求助、其他逃生路徑等無害選項。</li>
+            <li><strong>利益衡量（優越利益原則）</strong>：保全的利益必須<strong>顯然大於</strong>犧牲的利益（例如：生命 &gt; 財產）。</li>
+            <li><strong>避難意思</strong>：主觀上出於避險意圖。</li>
+          </ul>
+          <h2>生活化正反案例</h2>
+          <div class="case-grid">
+            <div class="case-card ok">
+              <h4>✅ 成立緊急避難</h4>
+              <p>大樓火災濃煙密布，無路可逃下打破鄰居陽台玻璃逃生 → 保全生命 &gt; 毀損財產，不罰。</p>
+            </div>
+            <div class="case-card no">
+              <h4>❌ 經濟困難偷超商</h4>
+              <p>失業肚子餓去超商偷便當 → 非瞬間生命危難，且有社福管道，不符「不得已」，仍構成竊盜罪。</p>
+            </div>
+            <div class="case-card no">
+              <h4>❌ 生命換生命</h4>
+              <p>船難時搶走無辜乘客的救生衣致對方溺斃 → 生命價值相等，無優越利益，不得阻卻違法。</p>
+            </div>
+          </div>
+          <h2>特別義務限制（§24Ⅱ）與實務見解</h2>
+          <p>消防員、警察等負有特別義務者，面對職務內危難不得為「避免自己危難」主張緊急避難。<strong>最高法院 109 台上 5037 判決</strong>亦明揭：避難過當屬罪責層次之減免事由。</p>
+        `,
+        seeAlso: ["WIKI-01", "WIKI-02", "WIKI-06"]
+      },
+      "WIKI-04": {
+        group: "wiki",
+        title: "依法令、上級命令與業務上正當行為",
+        law: "刑法第 21、22 條",
+        sources: ["SRC-01", "SRC-04"],
+        slides: [5],
+        tldr: "其他法律允許你做的事、合法職務命令，或在正當專業規範內執行的業務，刑法不會矛盾地處罰你。",
+        body: `
+          <h2>三大類型與實例</h2>
+          <table>
+            <thead>
+              <tr><th>類型與法條</th><th>核心原理與要件</th><th>生活化例子</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>依法令之行為</strong><br/>（刑法 §21Ⅰ）</td>
+                <td>維護「法秩序一致性」，他法既已授權，刑法不罰。</td>
+                <td>民眾依刑事訴訟法 §88 逮捕現行犯；警察持票搜索民宅。</td>
+              </tr>
+              <tr>
+                <td><strong>依上級公務員命令</strong><br/>（刑法 §21Ⅱ）</td>
+                <td>職務範圍內且<strong>非明知</strong>命令違法。<br/>⚠️ 但書：<strong>明知違法仍照辦，照樣要罰！</strong></td>
+                <td>基層公務員執行形式合法之行政處分（非明知違法）。</td>
+              </tr>
+              <tr>
+                <td><strong>業務上正當行為</strong><br/>（刑法 §22）</td>
+                <td>從事正當業務且遵守專業規則與社會相當性。</td>
+                <td>醫師依醫療常規開刀救人；拳擊手在比賽規則內擊倒對手。</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="case-grid">
+            <div class="case-card no">
+              <h4>❌ 越界反例</h4>
+              <p>拳擊比賽裁判已喊停，選手仍惡意重擊對手頭部 → 超出業務正當範圍，構成傷害罪。</p>
+            </div>
+          </div>
+        `,
+        seeAlso: ["WIKI-01", "WIKI-05"]
+      },
+      "WIKI-05": {
+        group: "wiki",
+        title: "超法規阻卻違法：得被害人承諾",
+        law: "超法規阻卻違法事由",
+        sources: ["SRC-05"],
+        slides: [5],
+        tldr: "只要是對方有權自己放棄的個人利益，而且事前真心同意讓你做，原則上就不違法。",
+        body: `
+          <h2>四大成立要件</h2>
+          <ol>
+            <li><strong>可處分的個人法益</strong>：✅ 財產、輕微身體（剪髮、刺青）；❌ 國家／社會法益、<strong>生命權</strong>（刑法 §275 即使對方拜託你殺他仍構成犯罪）。</li>
+            <li><strong>真摯且無瑕疵</strong>：非受騙（詐欺）或被逼（脅迫）所為。</li>
+            <li><strong>事前或行為時存在</strong>：事後才說「算了」不能讓原本違法的行為回溯變合法。</li>
+            <li><strong>行為人主觀認知且未越界</strong>：知道對方同意並照範圍執行。</li>
+          </ol>
+          <h2>延伸：推測承諾</h2>
+          <p>被害人昏迷無法表態（例：車禍重傷），但客觀上可合理推測若清醒必會同意且符合其利益（如剪破名牌外套進行電擊急救），可依「推測承諾」阻卻違法。</p>
+          <div class="case-grid">
+            <div class="case-card ok">
+              <h4>✅ 成立正例</h4>
+              <p>朋友搬家前請你拿鐵鎚幫他砸爛不要的舊衣櫃 → 財產權可處分 + 事前真摯同意 → 不構成毀損罪。</p>
+            </div>
+            <div class="case-card no">
+              <h4>❌ 不成立反例</h4>
+              <p>趁朋友熟睡偷偷剪短他頭髮，醒來後他沒生氣 → 行為當時欠缺承諾，不成立得被害人承諾。</p>
+            </div>
+          </div>
+        `,
+        seeAlso: ["WIKI-01", "WIKI-04"]
+      },
+      "WIKI-06": {
+        group: "wiki",
+        title: "正當防衛 vs. 緊急避難 完整對照",
+        law: "刑法 §23 vs. §24",
+        sources: ["SRC-01", "SRC-02", "SRC-03"],
+        slides: [6],
+        tldr: "正當防衛是「正對不正」（反擊壞人，不用先逃）；緊急避難是「正對正」（波及無辜，必須別無他法且救大犧牲小）。",
+        body: `
+          <h2>核心差異對照表</h2>
+          <table>
+            <thead>
+              <tr><th>比較項目</th><th>正當防衛（§23）</th><th>緊急避難（§24）</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>本質衝突</strong></td><td><strong>正對不正</strong>（反擊不法攻擊者）</td><td><strong>正對正</strong>（波及無辜第三人）</td></tr>
+              <tr><td><strong>危難來源</strong></td><td>限於人類的現在不法侵害</td><td>不限人類（火災、地震、野狗、急病皆可）</td></tr>
+              <tr><td><strong>保護法益</strong></td><td>自己或他人之一切權利</td><td>限生命、身體、自由、財產</td></tr>
+              <tr><td><strong>須「不得已」？</strong></td><td><strong>否</strong>（最高法院 108 台上 62）</td><td><strong>是</strong>（補充性：真的沒別招了）</td></tr>
+              <tr><td><strong>利益衡量？</strong></td><td>原則不嚴格比大小（禁權利濫用）</td><td><strong>嚴格要求</strong>保全利益顯然大於犧牲利益</td></tr>
+              <tr><td><strong>特別義務排除</strong></td><td>無</td><td>消防員／警察等不得避己危難（§24Ⅱ）</td></tr>
+              <tr><td><strong>過當效果</strong></td><td>仍違法，罪責層次得減免其刑</td><td>仍違法，罪責層次得減免其刑</td></tr>
+            </tbody>
+          </table>
+          <h2>新手 2 步驟快速判別法</h2>
+          <ol>
+            <li><strong>看你傷到誰？</strong> 只反擊攻擊你的壞人 → 想 <strong>正當防衛</strong>；波及無辜路人或鄰居財物 → 想 <strong>緊急避難</strong>。</li>
+            <li><strong>若是緊急避難，再問兩句</strong>：「真的沒別招了嗎？」＋「救回來的明顯比弄壞的貴重嗎？」</li>
+          </ol>
+        `,
+        seeAlso: ["WIKI-02", "WIKI-03"]
+      },
+      "SRC-01": {
+        group: "raw",
+        title: "SRC-01：中華民國刑法第 21～24 條全文",
+        law: "法務部全國法規資料庫",
+        sources: [],
+        slides: [3, 4, 5],
+        tldr: "法定阻卻違法事由之原始條文基準，所有 Wiki 條目與簡報條號皆以此為核對標準。",
+        body: `
+          <h2>條文原文</h2>
+          <blockquote><strong>第 21 條</strong>：依法令之行為，不罰。依所屬上級公務員命令之職務上行為，不罰。但明知命令違法者，不在此限。</blockquote>
+          <blockquote><strong>第 22 條</strong>：業務上之正當行為，不罰。</blockquote>
+          <blockquote><strong>第 23 條</strong>：對於現在不法之侵害，而出於防衛自己或他人權利之行為，不罰。但防衛行為過當者，得減輕或免除其刑。</blockquote>
+          <blockquote><strong>第 24 條</strong>：因避免自己或他人生命、身體、自由、財產之緊急危難而出於不得已之行為，不罰。但避難行為過當者，得減輕或免除其刑。前項關於避免自己危難之規定，於公務上或業務上有特別義務者，不適用之。</blockquote>
+        `,
+        seeAlso: ["WIKI-01", "WIKI-02", "WIKI-03", "WIKI-04"]
+      },
+      "SRC-02": {
+        group: "raw",
+        title: "SRC-02：正當防衛要件與最高法院實務見解",
+        law: "最高法院 108 台上 62 / 112 台上 537",
+        sources: [],
+        slides: [3, 6],
+        tldr: "彙整最高法院對現在不法侵害、防衛必要性（不以不得已為必要）、互毆排除與挑唆防衛之實務見解。",
+        body: `
+          <ul>
+            <li><strong>最高法院 108 台上 62、112 台上 537 判決</strong>：正當防衛本質為正對不正，不以「不得已（唯一手段）」為必要，只要有效終結侵害且未權利濫用即具必要性。</li>
+            <li><strong>互毆排除</strong>：雙方具傷害故意互為攻擊，欠缺防衛意思，均不得主張正當防衛。</li>
+            <li><strong>挑唆防衛</strong>：意圖式挑唆完全否定防衛權；非意圖挑唆應限縮手段並優先迴避。</li>
+            <li><strong>防衛過當</strong>：行為仍屬違法，屬第三關減輕／免除罪責事由，須站在當下處境判斷。</li>
+          </ul>
+        `,
+        seeAlso: ["WIKI-02", "WIKI-06"]
+      },
+      "SRC-03": {
+        group: "raw",
+        title: "SRC-03：緊急避難要件、利益衡量與實務見解",
+        law: "最高法院 109 台上 5037",
+        sources: [],
+        slides: [4, 6],
+        tldr: "整理刑法第 24 條補充性（不得已）、優越利益衡量、特別義務者例外與常見實務誤區。",
+        body: `
+          <ul>
+            <li><strong>正對正本質</strong>：常波及無辜第三人，故須嚴格審查緊急危難、不得已（補充性）與優越利益衡量。</li>
+            <li><strong>最高法院 109 台上 5037 判決</strong>：第 24 條第 1 項前段為阻卻違法事由，後段過當為寬恕或減輕罪責事由。</li>
+            <li><strong>常見誤區</strong>：經濟困難偷竊食物不符合「不得已」（尚有社福救助管道）；消防員、警察於職務上危難受 §24Ⅱ 限制。</li>
+          </ul>
+        `,
+        seeAlso: ["WIKI-03", "WIKI-06"]
+      },
+      "SRC-04": {
+        group: "raw",
+        title: "SRC-04：依法令、上級命令與業務上正當行為",
+        law: "刑法第 21、22 條實務類型",
+        sources: [],
+        slides: [5],
+        tldr: "彙整現行犯逮捕、警察搜索、上級違法命令紅線、醫療手術與正規運動比賽等典型案例。",
+        body: `
+          <ul>
+            <li>依法令：刑事訴訟法第 88 條現行犯逮捕、搜索扣押、合理管教。</li>
+            <li>上級命令：須非明知違法；若明知違法仍照辦不得免責。</li>
+            <li>業務正當行為：醫師開刀救治、拳擊手規則內出拳；逾越規則即違法。</li>
+          </ul>
+        `,
+        seeAlso: ["WIKI-04"]
+      },
+      "SRC-05": {
+        group: "raw",
+        title: "SRC-05：超法規阻卻違法——得被害人承諾與推測承諾",
+        law: "刑法總則通說與實務",
+        sources: [],
+        slides: [5],
+        tldr: "說明可處分法益範圍（排除生命權與國家社會法益）、真摯事前承諾要件及昏迷急救之推測承諾。",
+        body: `
+          <ul>
+            <li>可承諾：財產權、輕微身體法益（剪髮、刺青）。不可承諾：生命權（刑法 §275）、國家／社會法益。</li>
+            <li>要件：真摯無瑕疵、事前或行為時存在、行為人主觀認知且未越界。</li>
+            <li>推測承諾：昏迷急救等無法表態情境，客觀上符合被害人利益且可推測會同意。</li>
+          </ul>
+        `,
+        seeAlso: ["WIKI-05"]
+      },
+      "SRC-06": {
+        group: "raw",
+        title: "SRC-06：刑法三階層犯罪審查體系簡介",
+        law: "台灣刑法犯罪論通說",
+        sources: [],
+        slides: [2],
+        tldr: "建立構成要件（T）→ 違法性（R）→ 罪責（S）的教學地圖，協助新手區分阻卻違法與阻卻罪責。",
+        body: `
+          <p>三道關卡依序審查：第一關看外觀是否合於法條（構成要件該當性），第二關看有無合法正當理由（違法性／阻卻違法事由），第三關看行為人個人是否值得苛責（罪責）。</p>
+        `,
+        seeAlso: ["WIKI-01"]
+      },
+      "GRAPH": {
+        group: "meta",
+        title: "Loop / Graph 流程設計與反思",
+        law: "作業步驟三 & 步驟四",
+        sources: [],
+        slides: [10],
+        tldr: "透過「雙迴圈（Ingest 迴圈 + 簡報生成迴圈）」與三道前置檢查閘門（Check A / B / C），確保法條正確、知識無矛盾且新手看得懂。",
+        body: `
+          <h2>流程圖（Loop / Graph）</h2>
+          <pre class="flow-box">[1. 先討論確立 SCHEMA.md]
+        │
+        ▼
+┌──────────────────────────────────────────────────────────┐
+│ Loop 1：知識庫建構迴圈（針對 SRC-01 ~ SRC-06 逐篇執行）      │
+│  [2. 取得原始資料 raw/] ─► [3. Ingest 編譯至 wiki/]        │
+│            ▲                        │                    │
+│            │ (條號/判決有誤退回重寫)   ▼                    │
+│            └──────── [Check A：單篇來源核對]               │
+└──────────────────────────────────────────────────────────┘
+        │ (6 篇全數通過)
+        ▼
+[Check B：全庫一致性 Lint] ──(發現矛盾/孤兒條目)──► 退回修正 wiki/
+        │ (PASS)
+        ▼
+┌──────────────────────────────────────────────────────────┐
+│ Loop 2：教學簡報生成迴圈                                    │
+│  [4. 查詢 Wiki 規劃教學大綱] ─► [5. 產出 slides.html]       │
+│            ▲                             │               │
+│            │ (無對應 ID 或術語過深退回修正)  ▼               │
+│            └─────── [Check C：對應性與新手可讀性檢查]       │
+└──────────────────────────────────────────────────────────┘
+        │ (PASS)
+        ▼
+[6. 寫入 wiki/log.md 並輸出完整成品]</pre>
+          <h2>反思：哪個節點最常出錯？如何提前檢查？</h2>
+          <ul>
+            <li><strong>最常出錯的節點</strong>：<code>[3. Ingest 編譯至 wiki/]</code> 與 <code>[5. 產出簡報]</code>。法律概念容易出現兩類錯誤：(1) 階層混淆（把防衛／避難過當誤歸類為阻卻違法而非第三關罪責減免）；(2) 術語堆砌（直接照搬「補充性原則」「衡平性原則」導致新手看不懂）。</li>
+            <li><strong>把檢查往前移到哪裡？</strong>：原本只在最後人工看簡報才發現問題，修改 workflow 後，將「三階層歸屬查核」與「條號／判決核對」前移至 <strong>Check A（Ingest 後立即驗證）</strong> 與 <strong>Check B（全庫 Lint）</strong>，避免錯誤寫進 Wiki 後被簡報放大傳播。</li>
+            <li><strong>Workflow 修改成果</strong>：在 <code>SCHEMA.md</code> 強制規定每個條目必須先產出「一句話白話定義」與「正反生活案例」，讓簡報階段可直接取用白話素材，大幅降低 Check C 的重工次數。</li>
+          </ul>
+        `,
+        seeAlso: ["LOG", "WIKI-01", "WIKI-06"]
+      },
+      "LOG": {
+        group: "meta",
+        title: "一次實際執行與檢查紀錄（wiki/log.md）",
+        law: "Audit & Lint Log",
+        sources: [],
+        slides: [10],
+        tldr: "完整紀錄從 Schema 討論、6 篇資料 Ingest、Lint 攔截修正到簡報可讀性優化的真實歷程。",
+        body: `
+          <div class="log-item">
+            <strong>[Run 01] Schema 確立（先討論、後生成）</strong><br/>
+            確認主題為「刑法阻卻違法事由入門」、目標讀者為無法律背景新手，確立 <code>SRC-XX</code> → <code>WIKI-XX</code> → <code>Slide</code> 三層追溯規範。
+          </div>
+          <div class="log-item">
+            <strong>[Run 02] 6 篇原始資料逐篇 Ingest（PASS）</strong><br/>
+            透過網路查證法務部條文與最高法院判決（108 台上 62、112 台上 537、109 台上 5037），完成 <code>SRC-01</code>～<code>SRC-06</code> 並編譯為 <code>WIKI-01</code>～<code>WIKI-06</code>。
+          </div>
+          <div class="log-item fix">
+            <strong>[Run 03 / FIX-01] Check B 一致性 Lint 攔截修正</strong><br/>
+            <strong>發現問題</strong>：初稿曾將「防衛過當」誤歸於第二關阻卻違法，與 <code>SRC-01/02/03</code> 矛盾。<br/>
+            <strong>修正行動</strong>：於 <code>WIKI-01</code>、<code>WIKI-02</code>、<code>WIKI-03</code>、<code>WIKI-06</code> 全面統一改為「行為仍屬違法，屬第三關罪責層次之減輕／免除事由」。
+          </div>
+          <div class="log-item fix">
+            <strong>[Run 04 / FIX-02] Check C 簡報對應與新手可讀性修正</strong><br/>
+            <strong>發現問題</strong>：第 6 頁對照表初版法律術語過多（「補充性」「衡平性」），新手不易一眼理解。<br/>
+            <strong>修正行動</strong>：補上白話翻譯（「真的沒別招了」「救大的、犧牲小的」）、一句話口訣與 2 步驟判別法，並替每頁加上可點擊回跳的 <code>WIKI-XX</code> 來源徽章。
+          </div>
+        `,
+        seeAlso: ["GRAPH", "WIKI-01"]
+      }
+    };
+
+    function renderNav(filter = "") {
+      const q = filter.trim().toLowerCase();
+      const containers = { wiki: document.getElementById("wikiNav"), raw: document.getElementById("rawNav"), meta: document.getElementById("metaNav") };
+      Object.values(containers).forEach(el => el.innerHTML = "");
+      Object.entries(DOCS).forEach(([id, doc]) => {
+        const hay = (id + " " + doc.title + " " + doc.tldr + " " + doc.law).toLowerCase();
+        if (q && !hay.includes(q)) return;
+        const btn = document.createElement("button");
+        btn.className = "nav-item" + (window.currentDocId === id ? " active" : "");
+        btn.innerHTML = `<span class="id-pill">${id}</span><span>${doc.title}</span>`;
+        btn.onclick = () => openDoc(id);
+        containers[doc.group].appendChild(btn);
+      });
+    }
+
+    function openDoc(id) {
+      const doc = DOCS[id] || DOCS["WIKI-01"];
+      window.currentDocId = DOCS[id] ? id : "WIKI-01";
+      history.replaceState(null, "", "#" + window.currentDocId);
+      renderNav(document.getElementById("searchInput").value);
+
+      const srcBadges = (doc.sources || []).map(s => `<button class="badge src" onclick="openDoc('${s}')">📄 來源：${s}</button>`).join("");
+      const slideBadges = (doc.slides || []).map(p => `<a class="badge slide" href="slides.html#slide-${p}">🎞️ 對應簡報第 ${p} 頁</a>`).join("");
+      const seeAlsoLinks = (doc.seeAlso || []).map(t => `<button class="btn" style="padding:5px 10px;font-size:0.84rem" onclick="openDoc('${t}')">🔗 ${t} ${DOCS[t]?.title || ""}</button>`).join("");
+
+      document.getElementById("contentArea").innerHTML = `
+        <div class="meta-row">
+          <span class="badge">${window.currentDocId}</span>
+          <span class="badge" style="background:#f1f5f9;color:#334155;">⚖️ ${doc.law}</span>
+          ${srcBadges}
+          ${slideBadges}
+        </div>
+        <h1 style="margin:0 0 8px;font-size:1.7rem;">${doc.title}</h1>
+        <div class="tldr"><strong>一句話白話重點：</strong>${doc.tldr}</div>
+        ${doc.body}
+        ${seeAlsoLinks ? `<div class="see-also"><strong>交叉連結（See Also）：</strong>${seeAlsoLinks}</div>` : ""}
+      `;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function filterNav() {
+      renderNav(document.getElementById("searchInput").value);
+    }
+
+    const initialHash = location.hash.replace("#", "");
+    openDoc(DOCS[initialHash] ? initialHash : "WIKI-01");
+  </script>
+</body>
+</html>
